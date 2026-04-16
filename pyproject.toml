@@ -6,4 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "akshare>=1.18.55",
+    "chromadb>=1.5.7",
+    "openai>=2.32.0",
+    "python-dotenv>=1.2.2",
 ]
