@@ -2,6 +2,7 @@ from src.rag.loader import load_and_split
 from src.rag.embedder import embed_texts
 from src.rag.store import store_chunks
 from src.rag.retriever import retrieve
+from src.chat.chat import chat
 
 # chunks = load_and_split("data/docs/file.md")
 # print(f'总共{len(chunks)}段')
@@ -14,5 +15,9 @@ from src.rag.retriever import retrieve
 # print(f'向量维度：{len(vectors[0])}')
 # store_chunks(chunks,vectors)
 
-results = retrieve("什么是走势中枢")
-print(results)
+results = retrieve("什么是笔")
+#print(results)
+context = "\n\n".join(results["documents"][0])
+
+auswer = chat("什么是笔",results)
+print(auswer)
