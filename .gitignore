@@ -8,7 +8,15 @@ wheels/
 
 # Virtual environments
 .venv
-  
-.env  
-data/docs/ 
-.idea/ 
+
+# Secrets
+.env
+
+# Project data (ChromaDB, docs, logs) — root only, not src/data/
+/data/
+
+# IDE
+.idea/
+
+# Local scratch
+homework.py
