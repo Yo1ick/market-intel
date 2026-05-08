@@ -15,9 +15,22 @@ from src.chat.chat import chat
 # print(f'向量维度：{len(vectors[0])}')
 # store_chunks(chunks,vectors)
 
-results = retrieve("什么是笔")
-#print(results)
-context = "\n\n".join(results["documents"][0])
+# results = retrieve("什么是第一类买点")
+# docs = results["documents"][0]
+# dists = results["distances"][0]
+# for i, (doc, dist) in enumerate(zip(docs, dists)):
+#     print(f"--- chunk {i} (distance={dist:.3f}) ---")
+#     print(doc[:200])
+#     print()
+#context = "\n\n".join(results["documents"][0])
 
-auswer = chat("什么是笔",results)
-print(auswer)
+question = {
+    "明天是什么天气",
+    "什么是第一类买点",
+#    "什么样的人不能炒股"
+}
+for q in question:
+    print(f"---------------问题:{q}---------------")
+    results = retrieve(q)
+    context = "\n\n".join(results["documents"][0])
+    auswer = chat(q,context)
