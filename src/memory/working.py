@@ -1,5 +1,5 @@
 from src.llm.provider import LLMProvider
-
+import tiktoken
 
 class WorkingMemory:
     """
@@ -28,7 +28,7 @@ class WorkingMemory:
 
         return self._messages
 
-    def summarize(self) -> None:
+    def summarize(self,keep_recent_n = 4,compress_threshold_ratio = 0.5,context_window_size = 32000,):
         """
         达到50% token时压缩旧消息。
 
@@ -38,7 +38,33 @@ class WorkingMemory:
         Raises:
             LLMError: 压缩调用失败时(由 LLMProvider 抛出)
         """
-        ...
+        encoding = tiktoken.get_encoding("cl100k_base")
+        total = 0
+        for msg in self._messages:
+            content = msg.get("content", "") or ""
+            tokens = encoding.encode(content)
+            total += len(tokens)
+        threshold = context_window_size * compress_threshold_ratio
+        if total < threshold:
+            return
+        cut_index = -keep_recent_n
+        if self._messages[cut_index].get("role") == "tool":
+            cut_index -= 1
+        old_messages = self._messages[:cut_index]
+        recent_messages = self._messages[cut_index:]
+        conversation_str = ""
+        for m in old_messages:
+            role = m.get("role", "")
+            content = m.get("content", "") or ""
+            conversation_str += f"{role}: {content}\n"
+        summarize_messages = [
+            {"role": "user",
+            "content": "把下面的对话总结成一段简洁中文,保留关键信息(用户问题、助手回答、工具返回值):\n\n" + conversation_str}
+        ]
+        response = self._llm.generate(summarize_messages)
+        summary_text = response.content or ""
+        summary_msg = {"role": "assistant", "content": summary_text}
+        self._messages = [summary_msg] + recent_messages
 
     def add_message(self, message: dict) -> None:
         """往工作记忆尾部追加一条消息
