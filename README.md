@@ -1,4 +1,4 @@
-# market-intel(代号:赛博解馋)
+# market-intel
 
 > 基于 LLM agent + 研报知识库的极简投研问答助手。
 >
