@@ -24,9 +24,9 @@ def main():
 
     query = sys.argv[1]
 
-    api_key = os.getenv("STOCK_ASSISTANT_API_KEY") or os.getenv("DASHSCOPE_API_KEY")
+    api_key = os.getenv("STOCK_ASSISTANT_API_KEY")
     if not api_key:
-        print("Error: 未找到 API key(STOCK_ASSISTANT_API_KEY 或 DASHSCOPE_API_KEY)")
+        print("Error: 未找到 API key(STOCK_ASSISTANT_API_KEY)")
         sys.exit(1)
 
     llm = OpenAICompatibleProvider(
