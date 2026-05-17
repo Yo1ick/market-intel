@@ -82,6 +82,10 @@ class ResearchAgent:
                 else:
                     result = f"未知工具: {tool_name}"
 
+                # print(f"[ITER {tc}] tool={tool_name} args={tool_args}")
+                # print(f"[ITER {tc}] result_len={len(result)} preview={result[:300]!r}")
+
+
                 self._wm.add_message({
                     "role": "tool",
                     "tool_call_id": tc["id"],

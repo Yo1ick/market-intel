@@ -35,7 +35,10 @@ class OpenAICompatibleProvider:
         if tools:
             kwargs["tools"] = tools
 
-        response = self._client.chat.completions.create(**kwargs)
+        response = self._client.chat.completions.create(
+            extra_body={"enable_thinking": False},
+            **kwargs,
+        )
         message = response.choices[0].message
         tool_calls = [tc.model_dump() for tc in message.tool_calls] if message.tool_calls else None
         return LLMResponse(

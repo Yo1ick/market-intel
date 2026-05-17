@@ -1,6 +1,6 @@
-import chromadb
+﻿import chromadb
 import hashlib
-from src.rag.embedder import embed_texts
+from src.knowledge.embedder import embed_texts
 
 
 
@@ -60,3 +60,4 @@ class Knowledge:
             }
             for document, metadata, distance in zip(documents, metadatas, distances)
         ]
+
